@@ -1,0 +1,12 @@
+[package]
+name = "px"
+version = "0.1.0"
+authors = ["marco <marco@one.io>"]
+edition = "2018"
+
+[dependencies]
+ipfs-api = "0.5.0-alpha2"
+hyper = "*"
+futures = "*"
+web3 = { git = "https://github.com/tomusdrw/rust-web3" }
+structopt = "0.2"
