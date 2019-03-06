@@ -1,7 +1,22 @@
 # PX
-## The Ethereum package manager
+## The web3 package manager
 
-PX ("Packs") is a smart contract and ipfs based universal package manager for binaries and buildable packages as a secure replacement for existing package managers like npm and foremost as an extension for the growing ecosystem of the Web3.
+PX ("Packs") is a smart contract and ipfs based universal package registry and manager for binaries and buildable packages as a secure replacement for existing package managers like npm and foremost as an extension for the growing ecosystem of the Web3.
+
+* This is currently experimental, do not expect anything to work.
+
+## Requirements
+- rust
+- docker
+- ipfs
+- ganache
+- node
+
+## Todo / in progress
+- rust interface to ipfs, ethereum, substrate
+- lightweight identity provider implementing erc725
+- px registry contract
+- px package contract
 
 # Why
 
