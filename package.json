@@ -1,0 +1,17 @@
+{
+  "name": "px",
+  "version": "0.1.0",
+  "description": "PX (\"Packs\") is an ipfs and smart contract based universal package manager for binaries and buildable packages as a deterministic  replacement for existing package managers like npm and foremost as an extension for the growing dApp ecosystem of Web3.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "cargo run --manifest-path ./cli/Cargo.toml --target-dir ./dist",
+    "build": "cargo build --manifest-path ./cli/Cargo.toml --target-dir ./dist",
+    "ipfs:init": "docker run --name ipfs.service -p 8080:8080 -p 4001:4001 -p 5001:5001 ipfs/go-ipfs:latest",
+    "ipfs:start": "docker start ipfs.service",
+    "ipfs:stop": "docker stop ipfs.service",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
