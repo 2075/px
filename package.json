@@ -13,6 +13,12 @@
     "web3:start": "docker start web3.service",
     "web3:stop": "docker stop web3.service",
     "web3:logs": "docker logs web3.service",
+    "polkadot:init": "docker run -d --name polkadot.service --rm -it chevdor/polkadot polkadot --dev",
+    "polkadot:start": "docker start polkadot.service",
+    "polkadot:stop": "docker stop polkadot.service",
+    "substrate:init": "docker run -d --name substrate.service --rm -it parity/substrate --dev",
+    "substrate:start": "docker start substrate.service",
+    "substrate:stop": "docker stop substrate.service",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

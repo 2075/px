@@ -9,12 +9,22 @@ PX ("Packs") is a smart contract and ipfs based universal package registry and m
 - rust
 - docker
 - ipfs
-- ganache
-- node
+- ganache-cli
+- node / npm
+- make
+
+## Run
+
+- Install required dependencies
+- Clone repository
+- `yarn` to install internal deps.
+- `yarn dev` will build the current version and copy it to /usr/local/bin
+- `px` will run the cli, check if there is a ~/.config/px/config
+- `px help` will list available commands
 
 ## Todo / in progress
-- rust interface to ipfs, ethereum, substrate
-- lightweight identity provider implementing erc725
+- rust interface to ipfs, ethereum, substrate, polkadot, ...
+- lightweight identity provider implementing did/erc725-like identity claims
 - px registry contract
 - px package contract
 
@@ -27,7 +37,6 @@ PX offers unified api headers for binaries and packages which define a common in
 During development engineering can be sped up in a secure fashion, while the resulting package descriptors enable smaller distributables for the dApp, as it can dynamically load external, audited packages during runtime.
 
 # Workflow
-
 
 ## Register your identity
 
@@ -57,7 +66,7 @@ these artefacts are compressed archives containing
 
 
 
-# Workflow
+# WIP
 
 `DApp <- dapp.json <- px(n).json`
 
