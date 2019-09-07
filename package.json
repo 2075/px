@@ -4,17 +4,22 @@
   "description": "PX (\"Packs\") is an ipfs and smart contract based universal package manager for binaries and buildable packages as a deterministic  replacement for existing package managers like npm and foremost as an extension for the growing dApp ecosystem of Web3.",
   "main": "index.js",
   "scripts": {
-    "dev": "cargo run --manifest-path ./cli/Cargo.toml --target-dir ./dist",
+    "dev": "make -C cli",
     "build": "cargo build --manifest-path ./cli/Cargo.toml --target-dir ./dist",
     "ipfs:init": "docker run -d --name ipfs.service -p 8080:8080 -p 4001:4001 -p 5001:5001 ipfs/go-ipfs:latest",
     "ipfs:start": "docker start ipfs.service",
     "ipfs:stop": "docker stop ipfs.service",
+    "web3:init": "docker run -d --name web3.service -p 8545:8545 trufflesuite/ganache-cli:latest -a 10 --debug",
+    "web3:start": "docker start web3.service",
+    "web3:stop": "docker stop web3.service",
+    "web3:logs": "docker logs web3.service",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "assemblyscript": "AssemblyScript/assemblyscript"
+    "assemblyscript": "AssemblyScript/assemblyscript",
+    "ganache-cli": "^6.6.0"
   }
 }
