@@ -6,12 +6,15 @@
   "scripts": {
     "dev": "cargo run --manifest-path ./cli/Cargo.toml --target-dir ./dist",
     "build": "cargo build --manifest-path ./cli/Cargo.toml --target-dir ./dist",
-    "ipfs:init": "docker run --name ipfs.service -p 8080:8080 -p 4001:4001 -p 5001:5001 ipfs/go-ipfs:latest",
+    "ipfs:init": "docker run -d --name ipfs.service -p 8080:8080 -p 4001:4001 -p 5001:5001 ipfs/go-ipfs:latest",
     "ipfs:start": "docker start ipfs.service",
     "ipfs:stop": "docker stop ipfs.service",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "assemblyscript": "AssemblyScript/assemblyscript"
+  }
 }

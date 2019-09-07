@@ -5,8 +5,14 @@ authors = ["marco <marco@one.io>"]
 edition = "2018"
 
 [dependencies]
+state = "0.4"
+directories = "2.0"
+
+curl ="*"
+serde_json = "1.0.40"
+
 ipfs-api = "0.5.0-alpha2"
+web3 = "*"
+
 hyper = "*"
 futures = "*"
-web3 = { git = "https://github.com/tomusdrw/rust-web3" }
-structopt = "0.2"
