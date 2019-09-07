@@ -1,154 +1,167 @@
-// px poc
+#[allow(dead_code)]
 
+// px cli
+// proof of concept
+
+// 
+//
+//
+//	$ PX add <package_reference>
+//
+//	- search registry contract for package_reference
+//
+//	- pkg found
+//		- add package reference url to package.json
+//		- install package from reference url
+//
+//	- pkg not found
+//		- pull npm package from npm repo into cache
+//		- create package reference
+//		- push npm package to ipfs node
+//		- create package reference contract
+//		- deploy reference contract to eth node
+//
+//	- stdout result
+//
+//
+//
+
+// extern crate state;
+// extern crate curl;
+// extern crate serde_json;
+extern crate directories;
 extern crate futures;
 extern crate hyper;
 extern crate ipfs_api;
 extern crate web3;
 
-// use web3::futures::Future;
-// use hyper::rt::Future;
-use futures::{Future, Stream};
+use std::env;
 
-use ipfs_api::{
-	// response,
-	IpfsClient
-};
-use std::io::Cursor;
-use std::io::{self, Write};
+mod px;
 
-// fn print_recursive(indent: usize, cmd: &response::CommandsResponse) {
+fn init () {
 
-// 	let cmd_indent = " ".repeat(indent * 4);
-// 	let opt_indent = " ".repeat((indent + 1) * 4);
-
-// 	println!("{}[{}]", cmd_indent, cmd.name);
-
-// 	if cmd.options.len() > 0 {
-// 		println!("{}* options:", cmd_indent);
-// 		for options in cmd.options.iter() {
-// 			println!("{}{}", opt_indent, &options.names[..].join(", "));
-// 		}
-// 	}
-
-// 	if cmd.subcommands.len() > 0 {
-// 		println!("{}- subcommands:", cmd_indent);
-// 		for subcommand in cmd.subcommands.iter() {
-// 			print_recursive(indent + 1, subcommand);
-// 		}
-// 	}
-
-// }
-
-fn read() {
-
-	let client = IpfsClient::default();
-	let req = client
-	.get("/data/pkg.json")
-	.concat2()
-	.map(|res| {
-		let out = io::stdout();
-		let mut out = out.lock();
-		out.write_all(&res).unwrap();
-	})
-	.map_err(|e| eprintln!("{}", e));
-
-	hyper::rt::run(req);
+	px::config::check_first_run();
 
 }
 
-fn write( data:String ) {
-
-	println!( "{}", data );
-	let data = Cursor::new( data );
-	let client = IpfsClient::default();
-	let req = client
-		.add(data)
-		.map(|res| {
-				println!("{}", res.hash);
-		})
-		.map_err(|e| eprintln!("{}", e));
-
-	hyper::rt::run(req);
+fn set_config () {
 
 }
 
-fn show_web3_accounts() {
-	let (_eloop, transport) = web3::transports::Http::new("http://localhost:8545").unwrap();
-	let web3 = web3::Web3::new(transport);
-	let accounts = web3.eth().accounts().wait().unwrap();
-	println!("Accounts: {:?}", accounts);	
+fn get_config () {
+
 }
+
+fn get_pkg( url: &str ) {
+
+}
+
+//
+//
+//
+
+fn packages() {
+
+}
+
+fn accounts() {
+	
+}
+
+fn version() {
+
+	px::config::version();
+
+	println!("
+
+	");
+
+}
+
+fn config() {
+
+	println!("list config");
+	px::config::create_config_file();
+
+}
+
+fn help() {
+
+	px::config::version();
+
+	println!("
+	usage:
+	px <command> <params>
+	{{ add | remove }} <package name> — add or remove a pkg to/from your registry
+	{{ ls }} config | packages | accounts — list configs, packages or accounts
+	");
+
+}
+
+fn error() {
+
+	eprintln!("invalid command");
+
+}
+
+//
+//
+//
 
 fn main() {
 
-	println!("Hello, world!");
+	px::config::version();
 
-	// display accounts in local web3 node
-	println!("connecting to local ethereum node...");
-	println!("read accounts:");
-	show_web3_accounts();
+	init();
 
-	/** 
-	 * 
-	 */
+	let args: Vec<String> = env::args().collect();
 
-	println!("connecting to local ipfs node...");
-	// let client = IpfsClient::default();
+	match args.len() {
 
-	// // get commands from node
-	// let req = client
-	// .commands()
-	// .map(|commands| print_recursive(0, &commands))
-	// .map_err(|e| eprintln!("{}", e));
-	// hyper::rt::run(req);
+		1 => {
 
-	// write data
-	println!("write data:");
-	write( "Hello, world!".to_string() );
+		},
+		2 => {
 
-	println!("read data:");
-	read()
+			let cmd = &args[1];
+
+			match &cmd[..] {
+				"help" => help(),
+				"version" => version(),
+				"ls" => println!("missing argument"),
+				_ => error()
+
+			}
+
+		},
+		3 => {
+
+			let cmd = &args[1];
+			let arg = &args[2];
+
+			match &cmd[..] {
+				"help" => help(),
+				"ls" => {
+
+					match &arg[..] {
+
+						"config" => config(),
+						"packages" => packages(),
+						"accounts" => accounts(),
+						_ => println!("missing argument")
+
+					}
+
+				},
+				_ => error()
+
+			}
+
+		},
+		_ => error()
 
 
-
-	// let bootstrap = client.bootstrap_list().map(|bootstrap| {
-	//     println!("current bootstrap peers:");
-	//     for peer in bootstrap.peers {
-	//         println!("  {}", peer);
-	//     }
-	// });
-
-	// let drop = client.bootstrap_rm_all().map(|drop| {
-	//     println!("dropped:");
-	//     for peer in drop.peers {
-	//         println!("  {}", peer);
-	//     }
-	// });
-
-	// let add = client.bootstrap_add_default().map(|add| {
-	//     println!("added:");
-	//     for peer in add.peers {
-	//         println!("  {}", peer);
-	//     }
-	// });
-
-	// hyper::rt::run(
-	//     bootstrap
-	//         .and_then(|_| {
-	//             println!();
-	//             println!("dropping all bootstrap peers...");
-
-	//             drop
-	//         })
-	//         .and_then(|_| {
-	//             println!();
-	//             println!("adding default peers...");
-
-	//             add
-	//         })
-	//         .map_err(|e| eprintln!("{}", e)),
-	// );
-
+	}
 
 }
-
