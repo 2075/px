@@ -19,7 +19,7 @@ PX ("Packs") is a smart contract and ipfs based universal package registry and m
 - Clone repository
 - `yarn` to install internal deps.
 - `yarn dev` will build the current version and copy it to /usr/local/bin
-- `px` will run the cli, check if there is a ~/.config/px/config
+- `px` will run the cli, check/create ~/.config/px/config
 - `px help` will list available commands
 
 ## Todo / in progress
