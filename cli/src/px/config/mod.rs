@@ -1,82 +1,114 @@
+extern crate glob;
+extern crate config;
+extern crate directories;
+
+use config::*;
+use std::path::Path;
+use std::collections::HashMap;
+use directories::BaseDirs;
+use super::util;
+use std::env;
+use std::fs;
+
+pub const CLI_NAME: &str = "px cli";
+pub const CLI_SEMVER: &str = "0.1";
+pub const WEB3_LOCAL: &str = "http://localhost:7545";
+
 //
-//	config and settings
+//
 //
 
-	use super::util;
+pub fn ls () {
 
-	use directories::{BaseDirs};
-	use std::path::Path;
+	if let Some( base_dirs ) = BaseDirs::new() {
 
-	// use std::io;
-	// use std::io::Cursor;
-	// // use std::io::{self, Write};
-	// use std::io::prelude::*;
-	use std::fs;
-	use std::fs::{File, OpenOptions};
-	// use std::os::unix;
-	// use std::error::Error;
+		// let home = Path::new(base_dirs.home_dir());
+		let file = base_dirs.home_dir().join(".config/px/config.json");
 
-	//
+		// println!("home {}", home.display() );
+		println!("config file {}", file.display() );
 
-	pub const WEB3_LOCAL: &str = "http://localhost:8545";
+		let mut settings = Config::default();
 
-	pub const INFURA_ID: &str = "ca17b747ef5d4ba08b951db1a4da4ca8";
-	pub const INFURA_NODE: &str = "infura.io/v3/";
-	pub const INFURA_NET: &str = "ropsten";
+		settings.merge(File::from(file)).unwrap();
 
-	pub const IPFS_LOCAL: &str = "http://localhost";
-	pub const IPFS_GLOBAL: &str = "http://ipfs.one.io";
+		// Print out our settings (as a HashMap)
+		println!("\n{:?} \n\n-----------",
+		settings.try_into::<HashMap<String, String>>().unwrap());
 
-	pub const CLI_NAME: &str = "px-cli";
-	pub const CLI_VERSION: &str = "0.0.1";
-	pub const CLI_BUILD: i32 = 1;
+	}
+}
 
-	//
+pub fn get (_args: &Vec<String>) {
+}
 
-	pub fn version() {
+pub fn set (_args: &Vec<String>) {
+}
 
-		println!("{} {}", CLI_NAME, CLI_VERSION );
+//
+//
+//
+
+pub fn get_env_key( key: &str) -> Result<String, env::VarError> {
+	match env::var(key) {
+		Ok(val) => return Ok(val),
+		Err(e) => return Err(e)
+	}
+}
+
+pub fn out_env_key( key: &str) {
+	match env::var(key) {
+		Ok(val) => println!("{}: {:?}", key, val),
+		Err(e) => panic!("couldn't interpret {}: {}", key, e ),
+	}
+}
+
+pub fn raw () {
+
+	if let Some( base_dirs ) = BaseDirs::new() {
+
+		let file = base_dirs.home_dir().join( ".config/px/config.json" );
+
+		match util::cat( &file ) {
+			Err(why) => println!("! {:?}", why.kind()),
+			Ok(s) => println!("> {}", s),
+		}
 
 	}
 
-	pub fn check_first_run () {
+}
 
-		if let Some( base_dirs ) = BaseDirs::new() {
+//
+//
+//
 
-			let home = Path::new( base_dirs.home_dir() );
-			let dir = base_dirs.home_dir().join( ".config/px" );
-			let file = Path::new("config.json");
+pub fn version() {
+	println!("{} {}", CLI_NAME, CLI_SEMVER );
+}
 
-			if dir.exists() == false {
+pub fn first_run () {
 
-				println!( "first run..." );
+	if let Some( base_dirs ) = BaseDirs::new() {
 
-				fs::create_dir_all(&dir).unwrap_or_else(|why| {
-					println!("! {:?}", why.kind());
-				});
+		let dir = base_dirs.home_dir().join( ".config/px" );
+		let file = Path::new("default/config.json");
 
-				crate::px::util::touch( &Path::new(&dir.join(&file))).unwrap_or_else(|why| {
-					println!("! {:?}", why.kind());
-				});
+		if dir.exists() == false {
 
-			}
+			println!( "first run..." );
+
+			fs::create_dir_all(&dir).unwrap_or_else(|why| {
+				println!("! {:?}", why.kind());
+			});
+
+			crate::px::util::touch( &Path::new(&dir.join(&file))).unwrap_or_else(|why| {
+				println!("! {:?}", why.kind());
+			});
+
+			println!( "px is ready to fly" );
 
 		}
 
 	}
 
-	pub fn create_config_file () {
-
-		if let Some( base_dirs ) = BaseDirs::new() {
-
-			let home = Path::new( base_dirs.home_dir() );
-			let file = base_dirs.home_dir().join( ".config/px/config.json" );
-
-			match util::cat( &file ) {
-				Err(why) => println!("! {:?}", why.kind()),
-				Ok(s) => println!("> {}", s),
-			}
-
-		}
-
-	}
+}

@@ -26,142 +26,87 @@
 //
 //
 
-// extern crate state;
-// extern crate curl;
-// extern crate serde_json;
-extern crate directories;
-extern crate futures;
-extern crate hyper;
-extern crate ipfs_api;
-extern crate web3;
-
-use std::env;
-
+#[macro_use]
 mod px;
 
+use std::env;
+use std::io;
+use std::process;
+
 fn init () {
-
-	px::config::check_first_run();
-
-}
-
-fn set_config () {
-
-}
-
-fn get_config () {
-
-}
-
-fn get_pkg( url: &str ) {
-
-}
-
-//
-//
-//
-
-fn packages() {
-
-}
-
-fn accounts() {
-	
-}
-
-fn version() {
-
-	px::config::version();
-
-	println!("
-
-	");
-
-}
-
-fn config() {
-
-	println!("list config");
-	px::config::create_config_file();
-
-}
-
-fn help() {
-
-	px::config::version();
-
-	println!("
-	usage:
-	px <command> <params>
-	{{ add | remove }} <package name> — add or remove a pkg to/from your registry
-	{{ ls }} config | packages | accounts — list configs, packages or accounts
-	");
-
+	// px::config::version();
+	px::config::first_run();
+	// px::config::out_env_key("HOME");
 }
 
 fn error() {
-
 	eprintln!("invalid command");
-
 }
 
-//
-//
-//
-
 fn main() {
-
-	px::config::version();
+	use std::io::Write;
+	let mut stdout = io::stdout();
+	let mut stderr = io::stderr();	
+	//let args: Vec<String> = env::args().collect();
+	let args = env::args().collect::<Vec<_>>();
 
 	init();
 
-	let args: Vec<String> = env::args().collect();
-
 	match args.len() {
 
-		1 => {
+		1 => {},
 
-		},
 		2 => {
-
 			let cmd = &args[1];
-
 			match &cmd[..] {
-				"help" => help(),
-				"version" => version(),
-				"ls" => println!("missing argument"),
+				"help" => px::help::help(),
+				"version" => px::config::version(),
 				_ => error()
-
 			}
-
 		},
-		3 => {
 
+		3 => {
 			let cmd = &args[1];
 			let arg = &args[2];
-
 			match &cmd[..] {
-				"help" => help(),
-				"ls" => {
-
+				"pkg" => {
 					match &arg[..] {
-
-						"config" => config(),
-						"packages" => packages(),
-						"accounts" => accounts(),
+						"ls" => px::package::ls(),
+						"add" => px::package::add(&args),
+						"rm" => px::package::rm(&args),
+						"create" => px::package::create(&args),
 						_ => println!("missing argument")
-
 					}
-
+				},
+				"web3" => {
+					match &arg[..] {
+						"accounts" => px::web3::accounts(),
+						_ => println!("missing argument")
+					}
+				},				
+				"ipfs" => {
+					match &arg[..] {
+						// "ls" => px::ipfs::ls(),
+						_ => println!("missing argument")
+					}
+				},				
+				"cfg" => {
+					match &arg[..] {
+						"ls" => px::config::ls(),
+						"get" => px::config::get(&args),
+						"set" => px::config::set(&args),
+						_ => println!("missing argument")
+					}
 				},
 				_ => error()
-
 			}
-
 		},
+
 		_ => error()
 
-
 	}
+
+	let _ = stdout.flush();
+	// process::exit();
 
 }

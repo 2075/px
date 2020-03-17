@@ -1,0 +1,60 @@
+{
+	"px": {
+		"name": "px-cli",
+		"version": "0.0.1",
+		"build": "1",
+		"author": "px project"
+	},	
+	"npm": {
+		"token": ""
+	},
+	"web3": {
+		"active": 0,
+		"nodes": [
+			{
+				"id": 0,
+				"name": "local",
+				"network": "local",
+				"protocol": "http",
+				"host": "localhost",
+				"port": "8545",
+				"key": "",
+				"secret": ""
+			},
+			{
+				"id": 1,
+				"name": "test",
+				"network": "ropsten",
+				"protocol": "http",
+				"host": "infura.io/v3/ca17b747ef5d4ba08b951db1a4da4ca8",
+				"port": "8545",
+				"key": "",
+				"secret": ""
+			}
+		]
+	},
+	"ipfs": {
+		"active": 0,
+		"nodes": [
+			{
+				"id": 0,
+				"name":"local",
+				"protocol": "http",
+				"host": "localhost",
+				"port": "5001",
+				"key": "",
+				"secret": ""
+			},
+			{
+				"id": 1,
+				"name":"global",
+				"protocol": "http",
+				"host": "ipfs.one.io",
+				"port": "5001",
+				"key": "",
+				"secret": ""
+			}
+		]
+	},
+
+}
