@@ -1,18 +1,37 @@
 [package]
-name = "px"
-version = "0.1.0"
-authors = ["marco <marco@one.io>"]
-edition = "2018"
+name				= "px"
+description			= "web3 abi registry, package manager"
+version				= "0.1.1"
+authors				= ["marco <marco@one.io>"]
+edition				= "2018"
+repository			= "https://github.com/2075/px"
+keywords			= ["ipfs","web3","ethereum","polkadot","substrate"]
+readme				= "https://github.com/2075/px/README.md"
 
 [dependencies]
+
+config = "0.9"
+glob = "0.3.0"
 state = "0.4"
 directories = "2.0"
 
 curl ="*"
+serde = "1.0"
 serde_json = "1.0.40"
+serde_urlencoded = "0.6"
 
-ipfs-api = "0.5.0-alpha2"
-web3 = "*"
+futures = "0.3"
 
-hyper = "*"
-futures = "*"
+hyper = { version = "0.13" }
+hyper-tls = { version = "0.4" }
+hyper-multipart-rfc7578 = { version = "0.4.0-rc" }
+
+tokio = { version = "0.2", features = ["full"] }
+tokio-util = { version = "0.2", features = ["codec"] }
+
+failure = "^0.1.6"
+web3 = { git = "https://github.com/tomusdrw/rust-web3" }
+ipfs-api = { git = "https://github.com/playzero/rust-ipfs-api", branch = "parity-multiaddr" }
+
+[dependencies.sdl2]
+	git = "https://github.com/AngryLawyer/rust-sdl2"
