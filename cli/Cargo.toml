@@ -22,7 +22,7 @@ serde_urlencoded = "0.6"
 
 futures = "0.3"
 
-hyper = { version = "0.13" }
+hyper = { version = "0.14" }
 hyper-tls = { version = "0.4" }
 hyper-multipart-rfc7578 = { version = "0.4.0-rc" }
 
